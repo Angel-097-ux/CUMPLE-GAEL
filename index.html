@@ -2,17 +2,29 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>🎮 Cumple Minecraft - Gael</title>
 
+<!-- 🟢 PREVIEW WHATSAPP -->
+<meta property="og:title" content="🎮 Estás invitado al cumple de Gael">
+<meta property="og:description" content="⛏️ Jugá, desbloqueá y confirmá tu asistencia 🎂">
+<meta property="og:image" content="https://angel-097-ux.github.io/CUMPLE-GAEL/preview.jpg">
+<meta property="og:url" content="https://angel-097-ux.github.io/CUMPLE-GAEL/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+
 <style>
+*{box-sizing:border-box}
+
 body{
     margin:0;
-    overflow:hidden;
     font-family:monospace;
     color:white;
+    overflow:hidden;
 }
 
-/* 🎬 START */
+/* START */
 #startScreen{
     position:fixed;
     width:100%;
@@ -27,14 +39,12 @@ body{
 
 #startScreen h1{
     color:#00ff00;
+    font-size:clamp(20px,6vw,40px);
     animation:blink 1s infinite;
 }
+@keyframes blink{50%{opacity:0;}}
 
-@keyframes blink{
-    50%{opacity:0;}
-}
-
-/* 🎥 VIDEO */
+/* VIDEO */
 video{
     position:fixed;
     width:100%;
@@ -44,144 +54,114 @@ video{
     filter:brightness(0.4);
 }
 
-/* CONTENEDOR */
+/* CARD */
 .container{
     position:absolute;
-    top:55%;
+    width:100%;
+    max-width:420px;
     left:50%;
+    top:55%;
     transform:translate(-50%, -50%);
+    padding:15px;
+}
+
+.card{
+    padding:18px;
+    background:rgba(0,0,0,0.85);
+    border:2px solid #00ff00;
+    box-shadow:0 0 20px #00ff00;
+    border-radius:10px;
     text-align:center;
 }
 
-/* CARD */
-.card{
-    padding:25px;
-    background:rgba(0,0,0,0.8);
-    border:3px solid #00ff00;
-    box-shadow:0 0 30px #00ff00;
-}
-
-/* TEXTO */
 .card p{
-    font-size:16px;
+    font-size:clamp(14px,4vw,18px);
     margin:6px 0;
 }
 
 /* BOTONES */
 button{
-    padding:10px;
-    margin:5px;
+    width:100%;
+    padding:14px;
+    margin:6px 0;
+    font-size:16px;
     background:#006600;
     color:white;
     border:none;
-    cursor:pointer;
+    border-radius:6px;
+}
+
+.whatsapp{
+    background:#25D366;
+    color:black;
+    font-weight:bold;
 }
 
 /* CONTADOR */
 #contador{
     margin-top:10px;
     color:#00ffcc;
+    font-weight:bold;
 }
 
 /* PROGRESO */
 #barra{
-    width:200px;
-    height:15px;
+    width:100%;
+    height:12px;
     background:#222;
-    margin:10px auto;
+    margin:10px 0;
+    border-radius:5px;
 }
-
 #progreso{
     height:100%;
     width:0%;
     background:#00ff00;
+    border-radius:5px;
 }
 
 /* BLOQUES */
 .block{
-    width:60px;
-    height:60px;
+    width:70px;
+    height:70px;
     background:#8B4513;
     position:absolute;
-    cursor:pointer;
+    border:2px solid black;
 }
 
-/* 🟩 CREEPER */
-#creeper{
-    position:absolute;
-    bottom:0;
-    left:-150px;
-    width:80px;
-    height:80px;
-    background:#3cff00;
-}
-
-#creeper::before{
-    content:"";
-    position:absolute;
-    width:20px;
-    height:20px;
-    background:black;
-    top:20px;
-    left:10px;
-    box-shadow:40px 0 black, 20px 30px black;
-}
-
-/* EXPLOSION */
-#explosion{
-    position:absolute;
-    font-size:80px;
-    display:none;
-}
-
-/* SHAKE */
-.shake{
-    animation:shake 0.3s;
-}
-@keyframes shake{
-    25%{transform:translate(5px);}
-    50%{transform:translate(-5px);}
-}
-
-/* 🌌 PORTAL */
-#portal{
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:radial-gradient(circle, purple, black);
-    display:none;
-    z-index:15;
-}
-
-/* 🏆 FINAL */
+/* FINAL */
 #win{
     display:none;
-    position:absolute;
+    position:fixed;
+    width:90%;
+    max-width:350px;
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
     background:black;
-    padding:30px;
+    padding:20px;
     border:3px solid gold;
     text-align:center;
-    box-shadow:0 0 40px gold;
+    box-shadow:0 0 30px gold;
+    border-radius:10px;
+    z-index:10;
 }
 </style>
 </head>
 
 <body>
 
+<!-- START -->
 <div id="startScreen">
 <h1>🎮 PRESS START 🎮</h1>
 <button onclick="start()">INICIAR</button>
 </div>
 
-<div id="portal"></div>
-
-<video autoplay muted loop>
+<!-- VIDEO -->
+<video autoplay muted loop playsinline>
 <source src="video-steve.mp4">
 </video>
 
+<!-- CARD -->
 <div class="container">
 <div class="card">
 <p>🧒 GAEL CUMPLE 7 AÑOS</p>
@@ -195,38 +175,36 @@ button{
 <div id="barra"><div id="progreso"></div></div>
 
 <button onclick="playMusic()">🎵 Música</button>
+<button onclick="openMap()">📍 Ubicación</button>
 <button onclick="startGame()">⛏️ Jugar</button>
 </div>
 </div>
 
+<!-- AUDIO -->
 <audio id="music" loop>
 <source src="minecraft.mp3">
 </audio>
 
-<audio id="break">
-<source src="https://www.soundjay.com/mechanical/sounds/mechanical-clunk-1.mp3">
-</audio>
-
-<audio id="boom">
-<source src="https://www.soundjay.com/explosion/sounds/explosion-01.mp3">
-</audio>
-
-<audio id="creep">
-<source src="https://www.soundjay.com/human/sounds/hiss-1.mp3">
-</audio>
-
-<div id="creeper"></div>
-<div id="explosion">💥</div>
-
+<!-- FINAL -->
 <div id="win">
-<h2>🏆 NIVEL COMPLETADO</h2>
-<h3>🎂 INVITACIÓN DESBLOQUEADA 🎂</h3>
-<p>📅 9 DE MAYO</p>
-<p>📍 PIKARDIAS</p>
-<p>⏰ 14:00 A 16:30</p>
+<h2>🏆 INVITACIÓN DESBLOQUEADA</h2>
+
+<p>🎂 Cumple de Gael</p>
+<p>📅 9 de Mayo</p>
+<p>📍 Pikardias</p>
+<p>⏰ 14:00 a 16:30</p>
+
+<button onclick="openMap()">📍 Ver ubicación</button>
+
+<button class="whatsapp" onclick="sendWhatsApp()">
+💬 Confirmar por WhatsApp
+</button>
 </div>
 
 <script>
+
+// 🔥 CONFIGURAR
+const telefono="549XXXXXXXXXX";
 
 // START
 function start(){
@@ -238,25 +216,33 @@ function playMusic(){
 document.getElementById("music").play();
 }
 
+// MAPA
+function openMap(){
+window.open("https://www.google.com/maps/search/?api=1&query=Aristóbulo+del+Valle+5424");
+}
+
 // CONTADOR
-const fecha = new Date("May 9, 2026 14:00:00").getTime();
+const fecha=new Date("May 9, 2026 14:00:00").getTime();
 setInterval(()=>{
 let now=new Date().getTime();
 let diff=fecha-now;
+
+if(diff<=0){
+document.getElementById("contador").innerHTML="🎉 ¡ES HOY!";
+return;
+}
 
 let d=Math.floor(diff/(1000*60*60*24));
 let h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
 let m=Math.floor((diff%(1000*60*60))/(1000*60));
 let s=Math.floor((diff%(1000*60))/1000);
 
-document.getElementById("contador").innerHTML =
+document.getElementById("contador").innerHTML=
 `⏳ ${d}D ${h}H ${m}M ${s}S`;
-
 },1000);
 
 // JUEGO
-let total=8;
-let count=0;
+let total=6,count=0;
 
 function startGame(){
 count=0;
@@ -265,18 +251,14 @@ updateBar();
 for(let i=0;i<total;i++){
 let b=document.createElement("div");
 b.className="block";
-b.style.left=Math.random()*90+"vw";
-b.style.top=Math.random()*80+"vh";
+b.style.left=Math.random()*80+"vw";
+b.style.top=Math.random()*70+"vh";
 
 b.onclick=function(){
-document.getElementById("break").play();
 b.remove();
 count++;
 updateBar();
-
-if(count>=total){
-winGame();
-}
+if(count>=total){winGame();}
 };
 
 document.body.appendChild(b);
@@ -289,41 +271,13 @@ document.getElementById("progreso").style.width=(count/total*100)+"%";
 
 // GANAR
 function winGame(){
-triggerCreeper();
+document.getElementById("win").style.display="block";
 }
 
-// CREEPER FINAL
-function triggerCreeper(){
-let c=document.getElementById("creeper");
-let e=document.getElementById("explosion");
-
-c.style.left="50%";
-c.style.transform="translateX(-50%)";
-
-document.getElementById("creep").play();
-
-setTimeout(()=>{
-let rect=c.getBoundingClientRect();
-
-document.getElementById("boom").play();
-document.body.classList.add("shake");
-
-e.style.left=rect.left+"px";
-e.style.top=rect.top+"px";
-e.style.display="block";
-
-c.style.display="none";
-
-setTimeout(()=>{
-document.getElementById("portal").style.display="block";
-setTimeout(()=>{
-document.getElementById("portal").style.display="none";
-document.getElementById("win").style.display="block";
-},1500);
-
-},500);
-
-},1500);
+// WHATSAPP
+function sendWhatsApp(){
+const msg=encodeURIComponent("🎮 Confirmo asistencia al cumple de Gael 🎂 el 9 de Mayo");
+window.open(`https://wa.me/${telefono}?text=${msg}`);
 }
 
 </script>
