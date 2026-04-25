@@ -14,159 +14,42 @@
     <meta property="og:image:height" content="630">
     <meta property="og:url" content="https://angel-097-ux.github.io/CUMPLE-GAEL/">
     <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="¡Estás invitado al cumple de Gael!">
+    <meta name="twitter:description" content="Jugá, desbloqueá y confirmá tu asistencia.">
+    <meta name="twitter:image" content="https://i.ibb.co/DZQjhGx/invitacion.png">
 
     <style>
-        :root {
-            --mc-green: #3cff00;
-            --mc-dirt: #6b4f2a;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: black;
-            color: white;
-            overflow: hidden;
-            cursor: url('cursor.png') 16 16, auto;
-            user-select: none;
-            touch-action: manipulation;
-        }
-
-        #loader {
-            position: fixed;
-            width: 100%; height: 100%;
-            background: black;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            z-index: 1000;
-        }
-
-        video {
-            position: fixed;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            filter: brightness(0.4);
-            z-index: -2;
-        }
-
-        .main {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%; max-width: 380px;
-            display: flex; flex-direction: column; gap: 15px;
-            z-index: 10;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        .card {
-            background: rgba(0, 0, 0, 0.85);
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            backdrop-filter: blur(8px);
-        }
-
+        :root { --mc-green: #3cff00; --mc-dirt: #6b4f2a; }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: black; color: white; overflow: hidden; cursor: url('cursor.png') 16 16, auto; user-select: none; touch-action: manipulation; }
+        #loader { position: fixed; width: 100%; height: 100%; background: black; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; }
+        video { position: fixed; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4); z-index: -2; }
+        .main { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 380px; display: flex; flex-direction: column; gap: 15px; z-index: 10; transition: opacity 0.5s ease, transform 0.5s ease; }
+        .card { background: rgba(0, 0, 0, 0.85); padding: 20px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; backdrop-filter: blur(8px); }
         h2 { color: var(--mc-green); margin: 0 0 10px 0; text-shadow: 0 0 10px var(--mc-green); }
         p { margin: 5px 0; font-size: 0.95rem; }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            margin-top: 8px;
-            background: #2e7d32;
-            border: none;
-            border-bottom: 4px solid #1b5e20;
-            border-radius: 8px;
-            color: white;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-        }
-
+        button { width: 100%; padding: 14px; margin-top: 8px; background: #2e7d32; border: none; border-bottom: 4px solid #1b5e20; border-radius: 8px; color: white; font-weight: bold; text-transform: uppercase; cursor: pointer; }
         button:active { transform: translateY(2px); border-bottom: 2px solid #1b5e20; }
-
-        /* JUEGO */
-        .block {
-            width: 65px; height: 65px;
-            background: var(--mc-dirt);
-            border: 4px solid #3d2b17;
-            position: absolute;
-            z-index: 50;
-            box-shadow: inset 5px 5px 0 rgba(255,255,255,0.1);
-            cursor: pointer;
-        }
-
-        #creeper {
-            position: absolute;
-            bottom: -150px; left: 50%;
-            transform: translateX(-50%);
-            width: 80px; height: 80px;
-            background: var(--mc-green);
-            z-index: 100;
-            transition: bottom 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: none;
-        }
-
-        #creeper::before {
-            content: ""; position: absolute;
-            width: 14px; height: 14px;
-            background: black;
-            top: 18px; left: 14px;
-            box-shadow: 38px 0 black, 19px 25px black, 8px 38px black, 30px 38px black;
-        }
-
-        #explosion {
-            position: absolute;
-            width: 250px; height: 250px;
-            background: radial-gradient(circle, #fff, #ffeb3b, #ff5722, transparent);
-            border-radius: 50%;
-            display: none;
-            z-index: 150;
-            animation: boom 0.6s forwards;
-        }
-
-        @keyframes boom {
-            0% { transform: scale(0.1); opacity: 1; }
-            100% { transform: scale(3.5); opacity: 0; }
-        }
-
-        #win {
-            display: none;
-            position: absolute;
-            left: 50%; top: 50%;
-            transform: translate(-50%, -50%) scale(0.7);
-            background: rgba(0, 0, 0, 0.95);
-            padding: 30px;
-            border-radius: 20px;
-            border: 3px solid var(--mc-green);
-            text-align: center;
-            z-index: 200;
-            box-shadow: 0 0 40px var(--mc-green);
-            opacity: 0;
-            transition: all 0.5s ease-out;
-            width: 280px;
-        }
-
+        .block { width: 65px; height: 65px; background: var(--mc-dirt); border: 4px solid #3d2b17; position: absolute; z-index: 50; box-shadow: inset 5px 5px 0 rgba(255,255,255,0.1); cursor: pointer; }
+        #creeper { position: absolute; bottom: -150px; left: 50%; transform: translateX(-50%); width: 80px; height: 80px; background: var(--mc-green); z-index: 100; transition: bottom 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: none; }
+        #creeper::before { content: ""; position: absolute; width: 14px; height: 14px; background: black; top: 18px; left: 14px; box-shadow: 38px 0 black, 19px 25px black, 8px 38px black, 30px 38px black; }
+        #explosion { position: absolute; width: 250px; height: 250px; background: radial-gradient(circle, #fff, #ffeb3b, #ff5722, transparent); border-radius: 50%; display: none; z-index: 150; animation: boom 0.6s forwards; }
+        @keyframes boom { 0% { transform: scale(0.1); opacity: 1; } 100% { transform: scale(3.5); opacity: 0; } }
+        #win { display: none; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(0.7); background: rgba(0, 0, 0, 0.95); padding: 30px; border-radius: 20px; border: 3px solid var(--mc-green); text-align: center; z-index: 200; box-shadow: 0 0 40px var(--mc-green); opacity: 0; transition: all 0.5s ease-out; width: 280px; }
         #win.active { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-
         #contador { color: var(--mc-green); font-weight: bold; margin-top: 10px; font-family: monospace; }
         #barra { width: 100%; height: 12px; background: #222; border-radius: 6px; margin-top: 10px; overflow: hidden; }
         #progreso { height: 100%; width: 0%; background: var(--mc-green); transition: 0.3s; }
     </style>
 </head>
 <body>
-
     <div id="loader">
         <h2 style="color:white">CARGANDO MUNDO...</h2>
         <div id="barra" style="width:200px"><div id="progreso" style="width:60%"></div></div>
     </div>
-
     <video id="bgVideo" autoplay muted loop playsinline>
         <source src="video-steve.mp4" type="video/mp4">
     </video>
-
     <div class="main" id="ui-principal">
         <div class="card">
             <h2>🎂 GAEL CUMPLE 7</h2>
@@ -177,119 +60,60 @@
             <div id="contador">Calculando...</div>
             <div id="barra"><div id="progreso" class="bar-game"></div></div>
         </div>
-
         <div class="card">
             <button onclick="startGame()">⛏️ ¡Jugar para Confirmar!</button>
             <button onclick="openMap()" style="background:#1976d2; border-color:#0d47a1;">📍 Ubicación</button>
             <button onclick="playMusic()" style="background:#7b1fa2; border-color:#4a148c;">🎵 Música</button>
         </div>
     </div>
-
     <div id="creeper"></div>
     <div id="explosion"></div>
-
     <div id="win">
         <h2>🏆 ¡LOGRADO!</h2>
         <p>Has desbloqueado la invitación</p>
         <hr style="border:0; border-top:1px solid #333; margin:15px 0;">
         <button onclick="wa()">💬 Confirmar Asistencia</button>
     </div>
-
     <audio id="music" loop src="minecraft.mp3"></audio>
     <audio id="hiss" src="hiss.mp3"></audio>
     <audio id="boom" src="boom.mp3"></audio>
-
     <script>
         window.onload = () => { document.getElementById('loader').style.display = "none"; };
-
-        // Contador
         const fechaTarget = new Date("May 9, 2026 14:00:00").getTime();
         setInterval(() => {
-            let now = new Date().getTime();
-            let diff = fechaTarget - now;
-            let d = Math.floor(diff / 86400000);
-            let h = Math.floor((diff % 86400000) / 3600000);
-            let m = Math.floor((diff % 3600000) / 60000);
-            let s = Math.floor((diff % 60000) / 1000);
+            let now = new Date().getTime(); let diff = fechaTarget - now;
+            let d = Math.floor(diff / 86400000); let h = Math.floor((diff % 86400000) / 3600000);
+            let m = Math.floor((diff % 3600000) / 60000); let s = Math.floor((diff % 60000) / 1000);
             document.getElementById('contador').innerHTML = `FALTAN: ${d}d ${h}h ${m}m ${s}s`;
         }, 1000);
-
-        // Lógica del Juego
-        let blocksFound = 0;
-        const totalBlocks = 4;
-
+        let blocksFound = 0; const totalBlocks = 4;
         function startGame() {
             const ui = document.getElementById('ui-principal');
-            ui.style.opacity = "0";
-            ui.style.pointerEvents = "none";
-            ui.style.transform = "translate(-50%, -50%) scale(0.8)";
-
-            blocksFound = 0;
-            updateProgress();
-            
+            ui.style.opacity = "0"; ui.style.pointerEvents = "none"; ui.style.transform = "translate(-50%, -50%) scale(0.8)";
+            blocksFound = 0; updateProgress();
             for(let i=0; i<totalBlocks; i++) {
-                let b = document.createElement("div");
-                b.className = "block";
-                b.style.left = (15 + Math.random() * 65) + "vw";
-                b.style.top = (15 + Math.random() * 65) + "vh";
-                
-                b.onclick = (e) => {
-                    e.stopPropagation();
-                    b.remove();
-                    blocksFound++;
-                    updateProgress();
-                    if(blocksFound >= totalBlocks) creeperEvent();
-                };
+                let b = document.createElement("div"); b.className = "block";
+                b.style.left = (15 + Math.random() * 65) + "vw"; b.style.top = (15 + Math.random() * 65) + "vh";
+                b.onclick = (e) => { e.stopPropagation(); b.remove(); blocksFound++; updateProgress(); if(blocksFound >= totalBlocks) creeperEvent(); };
                 document.body.appendChild(b);
             }
         }
-
-        function updateProgress() {
-            let p = (blocksFound / totalBlocks) * 100;
-            document.querySelectorAll('.bar-game').forEach(b => b.style.width = p + "%");
-        }
-
+        function updateProgress() { let p = (blocksFound / totalBlocks) * 100; document.querySelectorAll('.bar-game').forEach(b => b.style.width = p + "%"); }
         function creeperEvent() {
-            const creep = document.getElementById('creeper');
-            const expl = document.getElementById('explosion');
-            const winCard = document.getElementById('win');
-            const sHiss = document.getElementById('hiss');
-            const sBoom = document.getElementById('boom');
-
-            creep.style.display = "block";
-            setTimeout(() => { creep.style.bottom = "40%"; }, 50);
-            sHiss.play();
-
+            const creep = document.getElementById('creeper'); const expl = document.getElementById('explosion');
+            const winCard = document.getElementById('win'); const sHiss = document.getElementById('hiss'); const sBoom = document.getElementById('boom');
+            creep.style.display = "block"; setTimeout(() => { creep.style.bottom = "40%"; }, 50); sHiss.play();
             setTimeout(() => {
-                let rect = creep.getBoundingClientRect();
-                let x = rect.left + rect.width / 2;
-                let y = rect.top + rect.height / 2;
-
-                sBoom.play();
-                expl.style.left = (x - 125) + "px";
-                expl.style.top = (y - 125) + "px";
-                expl.style.display = "block";
-
+                let rect = creep.getBoundingClientRect(); let x = rect.left + rect.width / 2; let y = rect.top + rect.height / 2;
+                sBoom.play(); expl.style.left = (x - 125) + "px"; expl.style.top = (y - 125) + "px"; expl.style.display = "block";
                 if(navigator.vibrate) navigator.vibrate([200, 100, 200]);
-                document.body.style.background = "white";
-                setTimeout(() => document.body.style.background = "black", 100);
-
-                setTimeout(() => {
-                    creep.style.display = "none";
-                    expl.style.display = "none";
-                    winCard.style.display = "block";
-                    setTimeout(() => winCard.classList.add('active'), 50);
-                }, 400);
-
+                document.body.style.background = "white"; setTimeout(() => document.body.style.background = "black", 100);
+                setTimeout(() => { creep.style.display = "none"; expl.style.display = "none"; winCard.style.display = "block"; setTimeout(() => winCard.classList.add('active'), 50); }, 400);
             }, 1800);
         }
-
         function openMap() { window.open("https://maps.app.goo.gl/B9p6nN7a8f8z7G2L9"); }
         function playMusic() { document.getElementById('music').play(); }
-        function wa() {
-            const msj = encodeURIComponent("¡Hola! Confirmo mi asistencia al cumple de Gael 🎮");
-            window.open(`https://wa.me/5493426112097?text=${msj}`);
-        }
+        function wa() { const msj = encodeURIComponent("¡Hola! Confirmo mi asistencia al cumple de Gael 🎮"); window.open(`https://wa.me/5493426112097?text=${msj}`); }
     </script>
 </body>
 </html>
