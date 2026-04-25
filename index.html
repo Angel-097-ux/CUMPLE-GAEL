@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>🎮 Cumple Minecraft - Gael</title>
+
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    font-family:monospace;
+    color:white;
+}
+
+/* 🎬 START */
+#startScreen{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:black;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:20;
+}
+
+#startScreen h1{
+    color:#00ff00;
+    animation:blink 1s infinite;
+}
+
+@keyframes blink{
+    50%{opacity:0;}
+}
+
+/* 🎥 VIDEO */
+video{
+    position:fixed;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:-1;
+    filter:brightness(0.4);
+}
+
+/* CONTENEDOR */
+.container{
+    position:absolute;
+    top:55%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    text-align:center;
+}
+
+/* CARD */
+.card{
+    padding:25px;
+    background:rgba(0,0,0,0.8);
+    border:3px solid #00ff00;
+    box-shadow:0 0 30px #00ff00;
+}
+
+/* TEXTO */
+.card p{
+    font-size:16px;
+    margin:6px 0;
+}
+
+/* BOTONES */
+button{
+    padding:10px;
+    margin:5px;
+    background:#006600;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+/* CONTADOR */
+#contador{
+    margin-top:10px;
+    color:#00ffcc;
+}
+
+/* PROGRESO */
+#barra{
+    width:200px;
+    height:15px;
+    background:#222;
+    margin:10px auto;
+}
+
+#progreso{
+    height:100%;
+    width:0%;
+    background:#00ff00;
+}
+
+/* BLOQUES */
+.block{
+    width:60px;
+    height:60px;
+    background:#8B4513;
+    position:absolute;
+    cursor:pointer;
+}
+
+/* 🟩 CREEPER */
+#creeper{
+    position:absolute;
+    bottom:0;
+    left:-150px;
+    width:80px;
+    height:80px;
+    background:#3cff00;
+}
+
+#creeper::before{
+    content:"";
+    position:absolute;
+    width:20px;
+    height:20px;
+    background:black;
+    top:20px;
+    left:10px;
+    box-shadow:40px 0 black, 20px 30px black;
+}
+
+/* EXPLOSION */
+#explosion{
+    position:absolute;
+    font-size:80px;
+    display:none;
+}
+
+/* SHAKE */
+.shake{
+    animation:shake 0.3s;
+}
+@keyframes shake{
+    25%{transform:translate(5px);}
+    50%{transform:translate(-5px);}
+}
+
+/* 🌌 PORTAL */
+#portal{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:radial-gradient(circle, purple, black);
+    display:none;
+    z-index:15;
+}
+
+/* 🏆 FINAL */
+#win{
+    display:none;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:black;
+    padding:30px;
+    border:3px solid gold;
+    text-align:center;
+    box-shadow:0 0 40px gold;
+}
+</style>
+</head>
+
+<body>
+
+<div id="startScreen">
+<h1>🎮 PRESS START 🎮</h1>
+<button onclick="start()">INICIAR</button>
+</div>
+
+<div id="portal"></div>
+
+<video autoplay muted loop>
+<source src="video-steve.mp4">
+</video>
+
+<div class="container">
+<div class="card">
+<p>🧒 GAEL CUMPLE 7 AÑOS</p>
+<p>📍 PIKARDIAS</p>
+<p>📌 ARISTÓBULO DEL VALLE 5424</p>
+<p>📅 9 DE MAYO</p>
+<p>⏰ 14:00 A 16:30</p>
+
+<div id="contador"></div>
+
+<div id="barra"><div id="progreso"></div></div>
+
+<button onclick="playMusic()">🎵 Música</button>
+<button onclick="startGame()">⛏️ Jugar</button>
+</div>
+</div>
+
+<audio id="music" loop>
+<source src="minecraft.mp3">
+</audio>
+
+<audio id="break">
+<source src="https://www.soundjay.com/mechanical/sounds/mechanical-clunk-1.mp3">
+</audio>
+
+<audio id="boom">
+<source src="https://www.soundjay.com/explosion/sounds/explosion-01.mp3">
+</audio>
+
+<audio id="creep">
+<source src="https://www.soundjay.com/human/sounds/hiss-1.mp3">
+</audio>
+
+<div id="creeper"></div>
+<div id="explosion">💥</div>
+
+<div id="win">
+<h2>🏆 NIVEL COMPLETADO</h2>
+<h3>🎂 INVITACIÓN DESBLOQUEADA 🎂</h3>
+<p>📅 9 DE MAYO</p>
+<p>📍 PIKARDIAS</p>
+<p>⏰ 14:00 A 16:30</p>
+</div>
+
+<script>
+
+// START
+function start(){
+document.getElementById("startScreen").style.display="none";
+}
+
+// MUSICA
+function playMusic(){
+document.getElementById("music").play();
+}
+
+// CONTADOR
+const fecha = new Date("May 9, 2026 14:00:00").getTime();
+setInterval(()=>{
+let now=new Date().getTime();
+let diff=fecha-now;
+
+let d=Math.floor(diff/(1000*60*60*24));
+let h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+let m=Math.floor((diff%(1000*60*60))/(1000*60));
+let s=Math.floor((diff%(1000*60))/1000);
+
+document.getElementById("contador").innerHTML =
+`⏳ ${d}D ${h}H ${m}M ${s}S`;
+
+},1000);
+
+// JUEGO
+let total=8;
+let count=0;
+
+function startGame(){
+count=0;
+updateBar();
+
+for(let i=0;i<total;i++){
+let b=document.createElement("div");
+b.className="block";
+b.style.left=Math.random()*90+"vw";
+b.style.top=Math.random()*80+"vh";
+
+b.onclick=function(){
+document.getElementById("break").play();
+b.remove();
+count++;
+updateBar();
+
+if(count>=total){
+winGame();
+}
+};
+
+document.body.appendChild(b);
+}
+}
+
+function updateBar(){
+document.getElementById("progreso").style.width=(count/total*100)+"%";
+}
+
+// GANAR
+function winGame(){
+triggerCreeper();
+}
+
+// CREEPER FINAL
+function triggerCreeper(){
+let c=document.getElementById("creeper");
+let e=document.getElementById("explosion");
+
+c.style.left="50%";
+c.style.transform="translateX(-50%)";
+
+document.getElementById("creep").play();
+
+setTimeout(()=>{
+let rect=c.getBoundingClientRect();
+
+document.getElementById("boom").play();
+document.body.classList.add("shake");
+
+e.style.left=rect.left+"px";
+e.style.top=rect.top+"px";
+e.style.display="block";
+
+c.style.display="none";
+
+setTimeout(()=>{
+document.getElementById("portal").style.display="block";
+setTimeout(()=>{
+document.getElementById("portal").style.display="none";
+document.getElementById("win").style.display="block";
+},1500);
+
+},500);
+
+},1500);
+}
+
+</script>
+
+</body>
+</html>
