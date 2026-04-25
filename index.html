@@ -4,20 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>🎮 Cumple Minecraft - Gael</title>
+<title>🎮 Cumple Gael - NIVEL DIOS 5.0</title>
 
-<!-- PREVIEW -->
-<meta property="og:title" content="🎮 Cumple de Gael">
-<meta property="og:description" content="⛏️ Desbloqueá tu invitación gamer">
 <meta property="og:image" content="https://angel-097-ux.github.io/CUMPLE-GAEL/preview.jpg">
-<meta property="og:url" content="https://angel-097-ux.github.io/CUMPLE-GAEL/">
 
 <style>
 body{
 margin:0;
-overflow:hidden;
-font-family:monospace;
+font-family:Arial;
+background:black;
 color:white;
+overflow:hidden;
+cursor: url('cursor.png') 16 16, auto;
+}
+
+/* LOADER */
+#loader{
+position:fixed;
+width:100%;
+height:100%;
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:50;
+font-size:20px;
 }
 
 /* VIDEO */
@@ -26,75 +37,56 @@ position:fixed;
 width:100%;
 height:100%;
 object-fit:cover;
-filter:brightness(0.5);
+filter:brightness(0.45);
 z-index:-2;
+display:none;
 }
 
-/* START */
-#start{
-position:fixed;
-width:100%;
-height:100%;
-background:black;
+/* CONTENEDOR */
+.main{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:90%;
+max-width:380px;
 display:flex;
 flex-direction:column;
-justify-content:center;
-align-items:center;
-z-index:10;
+gap:15px;
 }
-#start h1{
-color:#00ff00;
-animation:blink 1s infinite;
-}
-@keyframes blink{50%{opacity:0;}}
 
-/* FLOAT CARDS */
+/* CARD */
 .card{
-position:absolute;
-left:50%;
-transform:translateX(-50%);
-background:rgba(0,0,0,0.7);
-padding:15px;
-border:2px solid #00ff00;
-border-radius:10px;
-box-shadow:0 0 20px #00ff00;
-animation:float 3s infinite ease-in-out;
+background:rgba(0,0,0,0.65);
+padding:18px;
+border-radius:14px;
 text-align:center;
 }
-@keyframes float{
-0%,100%{transform:translate(-50%,0);}
-50%{transform:translate(-50%,-10px);}
-}
-
-/* POSICIONES (NO TAPAN STEVE) */
-#info{top:65%;}
-#botones{top:80%;}
 
 /* BOTONES */
 button{
-padding:12px;
-margin:5px;
+width:100%;
+padding:13px;
+margin-top:6px;
+background:#2e7d32;
 border:none;
-background:#006600;
+border-radius:8px;
 color:white;
-border-radius:5px;
+font-weight:bold;
 }
 
 /* CONTADOR */
-#contador{
-margin-top:10px;
-color:#00ffcc;
-}
+#contador{color:#8affc1;margin-top:8px}
 
 /* PROGRESO */
-#barra{width:100%;height:10px;background:#222;margin-top:10px;}
-#progreso{height:100%;width:0;background:#00ff00;}
+#barra{width:100%;height:8px;background:#222;margin-top:10px}
+#progreso{height:100%;width:0;background:#4caf50}
 
 /* BLOQUES */
 .block{
-width:70px;
-height:70px;
-background:#8B4513;
+width:65px;
+height:65px;
+background:#6b4f2a;
 position:absolute;
 }
 
@@ -103,15 +95,39 @@ position:absolute;
 position:absolute;
 bottom:0;
 left:-100px;
-width:80px;
-transition:2s;
+width:60px;
+height:60px;
+background:#3cff00;
+z-index:5;
+}
+
+#creeper::before{
+content:"";
+position:absolute;
+width:10px;
+height:10px;
+background:black;
+top:15px;
+left:8px;
+box-shadow:25px 0 black,12px 20px black;
 }
 
 /* EXPLOSION */
 #explosion{
 position:absolute;
-font-size:70px;
+width:160px;
+height:160px;
+border-radius:50%;
+background:radial-gradient(circle,#fff,orange,red,transparent);
 display:none;
+z-index:10;
+animation:boom 0.5s ease-out;
+box-shadow:0 0 80px orange,0 0 150px red;
+}
+
+@keyframes boom{
+0%{transform:scale(0.2);opacity:1;}
+100%{transform:scale(3);opacity:0;}
 }
 
 /* FINAL */
@@ -122,168 +138,161 @@ top:50%;
 left:50%;
 transform:translate(-50%,-50%);
 background:black;
-padding:20px;
-border:3px solid gold;
+padding:25px;
+border-radius:12px;
 text-align:center;
-box-shadow:0 0 30px gold;
-}
-
-/* PARTICULAS */
-.pixel{
-position:absolute;
-width:6px;
-height:6px;
-background:#00ff00;
-animation:up 6s linear infinite;
-}
-@keyframes up{
-from{transform:translateY(100vh);}
-to{transform:translateY(-10vh);}
+z-index:20;
 }
 </style>
 </head>
 
 <body>
 
-<!-- START -->
-<div id="start">
-<h1>🎮 PRESS START 🎮</h1>
-<button onclick="start()">INICIAR</button>
-</div>
+<div id="loader">⏳ Cargando mundo Minecraft...</div>
 
-<!-- VIDEO -->
-<video autoplay muted loop>
+<video id="bgVideo" autoplay muted loop playsinline>
 <source src="video-steve.mp4">
 </video>
 
-<!-- INFO -->
-<div id="info" class="card">
-<p>🧒 GAEL CUMPLE 7</p>
-<p>📍 PIKARDIAS</p>
-<p>📌 ARISTÓBULO 5424</p>
-<p>📅 9 MAYO</p>
+<div class="main">
+
+<div class="card">
+<h2>🎂 GAEL CUMPLE 7</h2>
+<p>📍 Pikardias</p>
+<p>📌 Aristóbulo del Valle 5424</p>
+<p>📅 9 de Mayo</p>
 <p>⏰ 14:00 - 16:30</p>
+
 <div id="contador"></div>
 <div id="barra"><div id="progreso"></div></div>
 </div>
 
-<!-- BOTONES -->
-<div id="botones" class="card">
-<button onclick="playMusic()">🎵 Música</button>
+<div class="card">
 <button onclick="startGame()">⛏️ Jugar</button>
+<button onclick="openMap()">📍 Ubicación</button>
+<button onclick="playMusic()">🎵 Música</button>
 </div>
 
-<audio id="music" loop>
-<source src="minecraft.mp3">
-</audio>
+</div>
 
-<!-- CREEPER -->
-<img id="creeper" src="https://i.imgur.com/7yUVEpL.png">
+<audio id="music" loop src="minecraft.mp3"></audio>
+<audio id="hiss" src="hiss.mp3"></audio>
+<audio id="boom" src="boom.mp3"></audio>
 
-<div id="explosion">💥</div>
+<div id="creeper"></div>
+<div id="explosion"></div>
 
-<!-- FINAL -->
 <div id="win">
-<h2>🏆 INVITACIÓN DESBLOQUEADA</h2>
+<h2>🏆 MISIÓN COMPLETADA</h2>
 <p>🎂 Cumple de Gael</p>
 <p>📅 9 de Mayo</p>
-<p>📍 Pikardias</p>
-<button onclick="sendWhatsApp()">💬 Confirmar</button>
+<button onclick="wa()">💬 Confirmar asistencia</button>
 </div>
 
 <script>
 
-// TELEFONO
-const telefono="549XXXXXXXXXX";
+// LOAD
+window.onload=()=>{
+loader.style.display="none";
+bgVideo.style.display="block";
+};
 
-// START
-function start(){
-document.getElementById("start").style.display="none";
-}
-
-// MUSICA
-function playMusic(){
-document.getElementById("music").play();
-}
+// DATA
+const telefono="5493426112097";
 
 // CONTADOR
 const fecha=new Date("May 9, 2026 14:00:00").getTime();
 setInterval(()=>{
-let now=new Date().getTime();
-let diff=fecha-now;
-let d=Math.floor(diff/(1000*60*60*24));
-let h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
-let m=Math.floor((diff%(1000*60*60))/(1000*60));
-let s=Math.floor((diff%(1000*60))/1000);
-document.getElementById("contador").innerHTML=`⏳ ${d}D ${h}H ${m}M ${s}S`;
+let diff=fecha-new Date().getTime();
+let d=Math.floor(diff/86400000);
+let h=Math.floor(diff%86400000/3600000);
+let m=Math.floor(diff%3600000/60000);
+let s=Math.floor(diff%60000/1000);
+contador.innerHTML=`⏳ ${d}D ${h}H ${m}M ${s}S`;
 },1000);
 
-// JUEGO
-let total=6,count=0;
+// GAME
+let total=5,count=0;
 
 function startGame(){
 count=0;
-updateBar();
+update();
 
 for(let i=0;i<total;i++){
 let b=document.createElement("div");
 b.className="block";
 b.style.left=Math.random()*80+"vw";
 b.style.top=Math.random()*70+"vh";
-b.onclick=function(){
+
+b.onclick=()=>{
 b.remove();
 count++;
-updateBar();
-if(count>=total){finalGame();}
+update();
+if(count>=total){creeperAttack();}
 };
+
 document.body.appendChild(b);
 }
 }
 
-function updateBar(){
-document.getElementById("progreso").style.width=(count/total*100)+"%";
+function update(){
+progreso.style.width=(count/total*100)+"%";
 }
 
-// FINAL CON CREEPER
-function finalGame(){
+// 💣 CREEPER CINEMATIC
+function creeperAttack(){
+let c=creeper;
+let e=explosion;
 
-let c=document.getElementById("creeper");
-let e=document.getElementById("explosion");
+hiss.play(); // sssss
 
 c.style.left="50%";
 c.style.transform="translateX(-50%)";
 
 setTimeout(()=>{
 
-let rect=c.getBoundingClientRect();
+let r=c.getBoundingClientRect();
 
-e.style.left=rect.left+"px";
-e.style.top=rect.top+"px";
+boom.play();
+
+e.style.left=r.left+"px";
+e.style.top=r.top+"px";
 e.style.display="block";
 
-document.body.style.animation="shake 0.3s";
+// vibración
+if(navigator.vibrate){
+navigator.vibrate([300,100,400]);
+}
+
+// shake
+document.body.style.transform="translate(8px,-8px)";
+setTimeout(()=>document.body.style.transform="translate(-8px,8px)",100);
+setTimeout(()=>document.body.style.transform="translate(0,0)",200);
+
+// flash
+document.body.style.background="white";
+setTimeout(()=>document.body.style.background="black",120);
 
 setTimeout(()=>{
 c.style.display="none";
 e.style.display="none";
-document.getElementById("win").style.display="block";
-},800);
+win.style.display="block";
+},600);
 
-},2000);
+},1800);
 }
 
-// WHATSAPP
-function sendWhatsApp(){
-let msg=encodeURIComponent("🎮 Confirmo asistencia al cumple de Gael");
-window.open(`https://wa.me/${telefono}?text=${msg}`);
+// FUNCIONES
+function openMap(){
+window.open("https://www.google.com/maps/search/?api=1&query=Aristóbulo+del+Valle+5424");
 }
 
-// PARTICULAS
-for(let i=0;i<40;i++){
-let p=document.createElement("div");
-p.className="pixel";
-p.style.left=Math.random()*100+"vw";
-document.body.appendChild(p);
+function playMusic(){
+music.play();
+}
+
+function wa(){
+window.open(`https://wa.me/${3426112097}?text=Confirmo asistencia al cumple de Gael 🎮`);
 }
 
 </script>
