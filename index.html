@@ -7,7 +7,11 @@
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta property="og:title" content="¡Estás invitado al cumple de Gael! 🎮">
+    <meta property="og:description" content="Jugá, desbloqueá y confirmá tu asistencia.">
     <meta property="og:image" content="https://angel-097-ux.github.io/CUMPLE-GAEL/preview.jpg">
+    <meta property="og:url" content="https://angel-097-ux.github.io/CUMPLE-GAEL/">
+    <meta property="og:type" content="website">
 
     <style>
         :root {
@@ -21,22 +25,20 @@
             background: black;
             color: white;
             overflow: hidden;
-            /* Usamos tu archivo cursor.png */
             cursor: url('cursor.png') 16 16, auto;
             user-select: none;
+            touch-action: manipulation;
         }
 
-        /* LOADER */
         #loader {
             position: fixed;
             width: 100%; height: 100%;
             background: black;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
-            z-index: 100;
+            z-index: 1000;
         }
 
-        /* VIDEO DE FONDO */
         video {
             position: fixed;
             width: 100%; height: 100%;
@@ -45,7 +47,6 @@
             z-index: -2;
         }
 
-        /* CONTENEDOR PRINCIPAL */
         .main {
             position: absolute;
             top: 50%; left: 50%;
@@ -53,21 +54,21 @@
             width: 90%; max-width: 380px;
             display: flex; flex-direction: column; gap: 15px;
             z-index: 10;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
         .card {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             padding: 20px;
             border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
         }
 
         h2 { color: var(--mc-green); margin: 0 0 10px 0; text-shadow: 0 0 10px var(--mc-green); }
-        p { margin: 5px 0; font-size: 0.9rem; }
+        p { margin: 5px 0; font-size: 0.95rem; }
 
-        /* BOTONES ESTILO GAMER */
         button {
             width: 100%;
             padding: 14px;
@@ -80,49 +81,48 @@
             font-weight: bold;
             text-transform: uppercase;
             cursor: pointer;
-            transition: 0.2s;
         }
 
-        button:active { transform: translateY(3px); border-bottom: 0; }
+        button:active { transform: translateY(2px); border-bottom: 2px solid #1b5e20; }
 
         /* JUEGO */
         .block {
-            width: 60px; height: 60px;
+            width: 65px; height: 65px;
             background: var(--mc-dirt);
             border: 4px solid #3d2b17;
             position: absolute;
-            z-index: 5;
+            z-index: 50; /* Por encima del fondo */
             box-shadow: inset 5px 5px 0 rgba(255,255,255,0.1);
+            cursor: pointer;
         }
 
         #creeper {
             position: absolute;
-            bottom: -100px; left: 50%;
+            bottom: -150px; left: 50%;
             transform: translateX(-50%);
-            width: 70px; height: 70px;
+            width: 80px; height: 80px;
             background: var(--mc-green);
-            z-index: 15;
-            transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 100;
+            transition: bottom 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: none;
         }
 
-        /* CARA DEL CREEPER */
         #creeper::before {
             content: ""; position: absolute;
-            width: 12px; height: 12px;
+            width: 14px; height: 14px;
             background: black;
-            top: 15px; left: 12px;
-            box-shadow: 30px 0 black, 15px 20px black, 5px 30px black, 25px 30px black;
+            top: 18px; left: 14px;
+            box-shadow: 38px 0 black, 19px 25px black, 8px 38px black, 30px 38px black;
         }
 
-        /* EXPLOSIÓN */
         #explosion {
             position: absolute;
-            width: 200px; height: 200px;
+            width: 250px; height: 250px;
             background: radial-gradient(circle, #fff, #ffeb3b, #ff5722, transparent);
             border-radius: 50%;
             display: none;
-            z-index: 20;
-            animation: boom 0.6s ease-out forwards;
+            z-index: 150;
+            animation: boom 0.6s forwards;
         }
 
         @keyframes boom {
@@ -130,29 +130,27 @@
             100% { transform: scale(3.5); opacity: 0; }
         }
 
-        /* CARTEL DE VICTORIA POSICIONADO */
         #win {
             display: none;
             position: absolute;
-            transform: translate(-50%, -50%) scale(0.5);
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%) scale(0.7);
             background: rgba(0, 0, 0, 0.95);
-            padding: 25px;
-            border-radius: 15px;
+            padding: 30px;
+            border-radius: 20px;
             border: 3px solid var(--mc-green);
             text-align: center;
-            z-index: 30;
-            box-shadow: 0 0 30px var(--mc-green);
+            z-index: 200;
+            box-shadow: 0 0 40px var(--mc-green);
             opacity: 0;
-            transition: all 0.4s ease-out;
+            transition: all 0.5s ease-out;
+            width: 280px;
         }
 
-        #win.active {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
+        #win.active { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
-        #contador { color: var(--mc-green); font-weight: bold; margin-top: 10px; }
-        #barra { width: 100%; height: 10px; background: #222; border-radius: 5px; margin-top: 10px; overflow: hidden; }
+        #contador { color: var(--mc-green); font-weight: bold; margin-top: 10px; font-family: monospace; }
+        #barra { width: 100%; height: 12px; background: #222; border-radius: 6px; margin-top: 10px; overflow: hidden; }
         #progreso { height: 100%; width: 0%; background: var(--mc-green); transition: 0.3s; }
     </style>
 </head>
@@ -160,7 +158,7 @@
 
     <div id="loader">
         <h2 style="color:white">CARGANDO MUNDO...</h2>
-        <div id="barra" style="width:200px"><div id="progreso" style="width:50%"></div></div>
+        <div id="barra" style="width:200px"><div id="progreso" style="width:60%"></div></div>
     </div>
 
     <video id="bgVideo" autoplay muted loop playsinline>
@@ -174,14 +172,14 @@
             <p>📌 Aristóbulo del Valle 5424</p>
             <p>📅 Sábado 9 de Mayo</p>
             <p>⏰ 14:00 a 16:30 hs</p>
-            <div id="contador">Calculando tiempo...</div>
+            <div id="contador">Calculando...</div>
             <div id="barra"><div id="progreso" class="bar-game"></div></div>
         </div>
 
         <div class="card">
             <button onclick="startGame()">⛏️ ¡Jugar para Confirmar!</button>
-            <button onclick="openMap()" style="background:#1976d2; border-color:#0d47a1;">📍 Cómo llegar</button>
-            <button onclick="playMusic()" style="background:#7b1fa2; border-color:#4a148c;">🎵 Activar Música</button>
+            <button onclick="openMap()" style="background:#1976d2; border-color:#0d47a1;">📍 Ubicación</button>
+            <button onclick="playMusic()" style="background:#7b1fa2; border-color:#4a148c;">🎵 Música</button>
         </div>
     </div>
 
@@ -189,10 +187,10 @@
     <div id="explosion"></div>
 
     <div id="win">
-        <h2 style="font-size: 1.8rem;">🏆 ¡MISIÓN LOGRADA!</h2>
-        <p>Has desbloqueado la invitación de Gael</p>
+        <h2>🏆 ¡LOGRADO!</h2>
+        <p>Has desbloqueado la invitación</p>
         <hr style="border:0; border-top:1px solid #333; margin:15px 0;">
-        <button onclick="wa()">💬 Confirmar por WhatsApp</button>
+        <button onclick="wa()">💬 Confirmar Asistencia</button>
     </div>
 
     <audio id="music" loop src="minecraft.mp3"></audio>
@@ -200,10 +198,7 @@
     <audio id="boom" src="boom.mp3"></audio>
 
     <script>
-        // Carga
-        window.onload = () => {
-            document.getElementById('loader').style.display = "none";
-        };
+        window.onload = () => { document.getElementById('loader').style.display = "none"; };
 
         // Contador
         const fechaTarget = new Date("May 9, 2026 14:00:00").getTime();
@@ -222,17 +217,24 @@
         const totalBlocks = 4;
 
         function startGame() {
-            document.getElementById('ui-principal').style.opacity = "0.2";
+            // SOLUCIÓN: Ocultar UI para que no estorbe
+            const ui = document.getElementById('ui-principal');
+            ui.style.opacity = "0";
+            ui.style.pointerEvents = "none";
+            ui.style.transform = "translate(-50%, -50%) scale(0.8)";
+
             blocksFound = 0;
             updateProgress();
             
             for(let i=0; i<totalBlocks; i++) {
                 let b = document.createElement("div");
                 b.className = "block";
-                b.style.left = Math.random() * 80 + "vw";
-                b.style.top = Math.random() * 80 + "vh";
+                // Posiciones aleatorias evitando bordes
+                b.style.left = (15 + Math.random() * 65) + "vw";
+                b.style.top = (15 + Math.random() * 65) + "vh";
                 
-                b.onclick = () => {
+                b.onclick = (e) => {
+                    e.stopPropagation();
                     b.remove();
                     blocksFound++;
                     updateProgress();
@@ -254,8 +256,8 @@
             const sHiss = document.getElementById('hiss');
             const sBoom = document.getElementById('boom');
 
-            // Aparece el creeper
-            creep.style.bottom = "30%";
+            creep.style.display = "block";
+            setTimeout(() => { creep.style.bottom = "40%"; }, 50);
             sHiss.play();
 
             setTimeout(() => {
@@ -263,39 +265,27 @@
                 let x = rect.left + rect.width / 2;
                 let y = rect.top + rect.height / 2;
 
-                // Explosión
                 sBoom.play();
-                expl.style.left = (x - 100) + "px";
-                expl.style.top = (y - 100) + "px";
+                expl.style.left = (x - 125) + "px";
+                expl.style.top = (y - 125) + "px";
                 expl.style.display = "block";
 
-                // Shake y Flash
                 if(navigator.vibrate) navigator.vibrate([200, 100, 200]);
                 document.body.style.background = "white";
                 setTimeout(() => document.body.style.background = "black", 100);
 
-                // El cartel aparece donde estaba el creeper
-                winCard.style.left = x + "px";
-                winCard.style.top = y + "px";
-                winCard.style.display = "block";
-
                 setTimeout(() => {
                     creep.style.display = "none";
                     expl.style.display = "none";
-                    winCard.classList.add('active');
+                    winCard.style.display = "block";
+                    setTimeout(() => winCard.classList.add('active'), 50);
                 }, 400);
 
             }, 1800);
         }
 
-        function openMap() {
-            window.open("https://www.google.com/maps/search/?api=1&query=Aristobulo+del+Valle+5424+Santa+Fe");
-        }
-
-        function playMusic() {
-            document.getElementById('music').play();
-        }
-
+        function openMap() { window.open("https://www.google.com/maps/search/Pikardias+Aristobulo+del+Valle+5424"); }
+        function playMusic() { document.getElementById('music').play(); }
         function wa() {
             const msj = encodeURIComponent("¡Hola! Confirmo mi asistencia al cumple de Gael 🎮");
             window.open(`https://wa.me/5493426112097?text=${msj}`);
